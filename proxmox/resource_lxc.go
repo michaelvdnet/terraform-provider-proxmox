@@ -882,7 +882,6 @@ func _resourceLxcRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("protection", config.Protection)
 	d.Set("restore", config.Restore)
 	d.Set("searchdomain", config.SearchDomain)
-	d.Set("start", config.Start)
 	d.Set("startup", config.Startup)
 	d.Set("swap", config.Swap)
 	d.Set("tags", tags.String(tags.Split(config.Tags)))
