@@ -814,17 +814,17 @@ func _resourceLxcRead(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	// Read RootFs
+	var confRootFs map[string]interface{}
 	rootFs := d.Get("rootfs").([]interface{})
 	if len(rootFs) > 0 {
-		confRootFs := rootFs[0]
-		adaptedRootFs := adaptDeviceToConf(confRootFs.(map[string]interface{}), config.RootFs)
-		d.Set("rootfs", []interface{}{adaptedRootFs})
+		confRootFs = rootFs[0].(map[string]interface{})
 	} else {
-		confRootFs := make(map[string]interface{})
-		confRootFs = adaptDeviceToConf(confRootFs, config.RootFs)
-		adaptedRootFs := []map[string]interface{}{confRootFs}
-		d.Set("rootfs", adaptedRootFs)
+		confRootFs = make(map[string]interface{})
 	}
+
+	confRootFs = adaptDeviceToConf(confRootFs, config.RootFs)
+	confRootFs["storage"] = strings.Split(confRootFs["volume"].(string), ":")[0]
+	d.Set("rootfs", []interface{}{confRootFs})
 
 	// Read Networks
 	configNetworksSet := d.Get("network").([]interface{})
