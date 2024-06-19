@@ -783,6 +783,7 @@ func _resourceLxcRead(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 	d.SetId(resourceId(vmr.Node(), "lxc", vmr.VmId()))
+	d.Set("vmid", vmr.VmId())
 	d.Set("target_node", vmr.Node())
 
 	// Read Features
